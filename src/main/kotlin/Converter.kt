@@ -1,14 +1,14 @@
+// TODO: Interface to this?
 class Converter(
     private val groundMapper: GroundMapper
 ) {
-    fun fromEntryToStroke(entry: Entry): Stroke {
-        val lastThingsOfString = entry.text.dropWhile(Char::isDigit)
-        val distance = entry.text.takeWhile(Char::isDigit).toDouble()
+    fun fromEntryToStroke(distanceToPin: DistanceToPin): StrokeFFS {
+        val lastThingsOfString = distanceToPin.text.dropWhile(Char::isDigit)
+        val distance = distanceToPin.text.takeWhile(Char::isDigit).toDouble()
 
-        return Stroke(
+        return StrokeFFS(
             ground = getGroundFromString(lastThingsOfString),
-            distanceToPin = distance,
-            distanceUnit = DistanceUnit.METERS, // TODO: Get as configuration/setup somehow
+            distanceToPin = DenominatedValue(distance, DistanceUnit.METERS),  // TODO: Get as config
             leadToPenalty = leadToPenalty(lastThingsOfString)
         )
     }
@@ -25,7 +25,7 @@ class Converter(
         return lastThingsOfString.length == 2 && lastThingsOfString.takeLast(1) == groundMapper.penaltyCharacter()
     }
 
-    companion object Factory {
+    companion object {
         fun of(groundMapper: GroundMapper): Converter {
             return Converter(groundMapper)
         }

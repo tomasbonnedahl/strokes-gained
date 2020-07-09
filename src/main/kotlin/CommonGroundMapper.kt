@@ -1,3 +1,4 @@
+// TODO: @Component
 class CommonGroundMapper(
     private val groundByString: Map<String, Ground>,
     private val penaltyCharacter: String
