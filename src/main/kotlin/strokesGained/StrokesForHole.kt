@@ -1,7 +1,5 @@
 package strokesGained
 
-import strokesGained.StrokeFFS
-
 data class StrokesForHole(
     val hole: Int,
     val distances: List<StrokeFFS>,
