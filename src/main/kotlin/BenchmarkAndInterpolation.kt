@@ -22,7 +22,7 @@ class BenchmarkAndInterpolation(
 
         var retVal = mutableMapOf<Int, Double>()
 
-        for (i in (keysSorted.indices - 1)) {
+        for (i in (keysSorted.indices.take(keysSorted.size - 1))) {
             val key = keysSorted[i]
             val theValue = strokesGainedByDistance[key]!!
             println("i = ${i} ${key} ${theValue}")
@@ -43,6 +43,9 @@ class BenchmarkAndInterpolation(
 
             println("something = ${something}")
         }
+
+        // Add the last which was excluded in the loop
+        retVal.put(keysSorted.last().distance.roundToInt(), strokesGainedByDistance[keysSorted.last()]!!)
 
         println("retVal = ${retVal}")
         return StrokesGainedForAllDistances(retVal)

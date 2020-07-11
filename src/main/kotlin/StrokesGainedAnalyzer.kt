@@ -35,6 +35,7 @@ class StrokesGainedAnalyzer(
 
         val sgs = mutableListOf<StrokesGainedData>()
 
+        // TODO: Remove last of indices instead, as -1 removes index 1 from the list
         for (i in strokesPerHole.distances.indices - 1) {
             // Starting on the first, iterating up until the second to last
             println("i = ${i}")
