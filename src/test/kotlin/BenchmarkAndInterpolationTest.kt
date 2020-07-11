@@ -9,15 +9,12 @@ class BenchmarkAndInterpolationTest {
     @Test
     fun `test simple interpolation`() {
         val benchmark = DummyTest.StrokesGainedRepoTestImpl(  // TODO: Put this somewhere else
-            strokesByDistanceTee = mapOf(
-                DenominatedValue(130.0, DistanceUnit.METERS) to 3.0,
-                DenominatedValue(140.0, DistanceUnit.METERS) to 3.6
-            ),
-            strokesByDistanceFairway = emptyMap(),
-            strokesByDistanceRough = emptyMap(),
-            strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = emptyMap(),
-            strokesByDistanceByGround = emptyMap()
+            strokesByDistanceByGround = mapOf(
+                Ground.TEE to mapOf(
+                    DenominatedValue(130.0, DistanceUnit.METERS) to 3.0,
+                    DenominatedValue(140.0, DistanceUnit.METERS) to 3.6
+                )
+            )
         )
 
         val subject = BenchmarkAndInterpolation(benchmark)
@@ -39,16 +36,13 @@ class BenchmarkAndInterpolationTest {
     @Test
     fun `test interpolation with more than two data points`() {
         val benchmark = DummyTest.StrokesGainedRepoTestImpl(
-            strokesByDistanceTee = mapOf(
-                DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
-                DenominatedValue(110.0, DistanceUnit.METERS) to 3.0,
-                DenominatedValue(120.0, DistanceUnit.METERS) to 5.0
-            ),
-            strokesByDistanceFairway = emptyMap(),
-            strokesByDistanceRough = emptyMap(),
-            strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = emptyMap(),
-            strokesByDistanceByGround = emptyMap()
+            strokesByDistanceByGround = mapOf(
+                Ground.TEE to mapOf(
+                    DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
+                    DenominatedValue(110.0, DistanceUnit.METERS) to 3.0,
+                    DenominatedValue(120.0, DistanceUnit.METERS) to 5.0
+                )
+            )
         )
 
         val subject = BenchmarkAndInterpolation(benchmark)
@@ -67,18 +61,15 @@ class BenchmarkAndInterpolationTest {
         }
     }
 
-    @Test()
+    @Test
     fun `test getting distance not supported, expect exception`() {
         val benchmark = DummyTest.StrokesGainedRepoTestImpl(
-            strokesByDistanceTee = mapOf(
-                DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
-                DenominatedValue(110.0, DistanceUnit.METERS) to 3.0
-            ),
-            strokesByDistanceFairway = emptyMap(),
-            strokesByDistanceRough = emptyMap(),
-            strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = emptyMap(),
-            strokesByDistanceByGround = emptyMap()
+            strokesByDistanceByGround = mapOf(
+                Ground.TEE to mapOf(
+                    DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
+                    DenominatedValue(110.0, DistanceUnit.METERS) to 3.0
+                )
+            )
 
         )
 
