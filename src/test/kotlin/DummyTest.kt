@@ -63,16 +63,8 @@ class DummyTest {
             BenchmarkAndInterpolation(benchmark)
         ).analyze(round)
 
-        // TODO: Should be able to configure the brackets to use, i.e. 'total', 'tee', 'Fairway 125-150', etc.
         assertThat(strokesGained.total()).isEqualTo(0.3, within(0.0001))
         assertThat(strokesGained.tee()).isEqualTo(0.3, within(0.0001))
-//        assertThat(strokesGained.fairway()).isEqualTo(-2.0)
-//        assertThat(
-//            strokesGained.fairway(
-//                DenominatedValue(125.0, DistanceUnit.METERS),
-//                DenominatedValue(175.0, DistanceUnit.METERS)
-//            )
-//        ).isEqualTo(-2.0)
     }
 
     @Test
@@ -144,6 +136,15 @@ class DummyTest {
                 DenominatedValue(175.0, DistanceUnit.METERS)
             )
         ).isEqualTo(0.083, within(0.00001))  // TODO: epsilon
+
+        // TODO: A no data test, should throw exception?
+//        assertThat(
+//            strokesGained.fairway(
+//                DenominatedValue(125.0, DistanceUnit.METERS),
+//                DenominatedValue(135.0, DistanceUnit.METERS)
+//            )
+//        ).isEqualTo(0.083, within(0.00001))  // TODO: epsilon
+        assertThat(strokesGained.green()).isEqualTo(-0.343, within(0.00001))
     }
 
     @Test

@@ -14,6 +14,10 @@ class StrokesGained(
         return strokesGained(Ground.FAIRWAY)
     }
 
+    fun green(): Double {
+        return strokesGained(Ground.GREEN)
+    }
+
     fun fairway(minInclusive: DenominatedValue, maxExclusive: DenominatedValue): Double {
         return all.filter {
             it.ground == Ground.FAIRWAY
