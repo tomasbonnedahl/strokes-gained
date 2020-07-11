@@ -76,6 +76,77 @@ class DummyTest {
     }
 
     @Test
+    fun `test convert to sg with fairway brackets and interpolation`() {
+        val benchmark = StrokesGainedRepoTestImpl(
+            strokesByDistanceByGround = mapOf(
+                Ground.TEE to mapOf(
+                    DenominatedValue(100.0, DistanceUnit.METERS) to 2.7,
+                    DenominatedValue(400.0, DistanceUnit.METERS) to 3.7
+                ),
+                Ground.FAIRWAY to mapOf(
+                    DenominatedValue(100.0, DistanceUnit.METERS) to 2.6,
+                    DenominatedValue(300.0, DistanceUnit.METERS) to 3.3
+                ),
+                Ground.GREEN to mapOf(
+                    DenominatedValue(0.1, DistanceUnit.METERS) to 1.0,
+                    DenominatedValue(3.0, DistanceUnit.METERS) to 1.3,
+                    DenominatedValue(10.0, DistanceUnit.METERS) to 1.8
+                )
+            )
+        )
+
+        val round = Round(
+            CourseAndDate(
+                "Täby GK",
+                Date(2020, 6, 18)
+            ),
+            listOf(
+                StrokesForHole(
+                    2,
+                    listOf(
+                        StrokeFFS(
+                            Ground.TEE,
+                            DenominatedValue(360.0, DistanceUnit.METERS),
+                            false
+                        ),
+                        StrokeFFS(
+                            Ground.FAIRWAY,
+                            DenominatedValue(140.0, DistanceUnit.METERS),
+                            false
+                        ),
+                        StrokeFFS(
+                            Ground.GREEN,
+                            DenominatedValue(8.0, DistanceUnit.METERS),
+                            false
+                        ),
+                        StrokeFFS(
+                            Ground.GREEN,
+                            DenominatedValue(0.5, DistanceUnit.METERS),
+                            false
+                        )
+                    ),
+                    4,
+                    2
+                )
+            )
+        )
+
+        val strokesGained = StrokesGainedAnalyzer(
+            BenchmarkAndInterpolation(benchmark)
+        ).analyze(round)
+
+        assertThat(strokesGained.total()).isEqualTo(-0.433, within(0.0001))
+        assertThat(strokesGained.tee()).isEqualTo(-0.173, within(0.0001))
+        assertThat(strokesGained.fairway()).isEqualTo(0.083, within(0.00001))
+        assertThat(
+            strokesGained.fairway(
+                DenominatedValue(125.0, DistanceUnit.METERS),
+                DenominatedValue(175.0, DistanceUnit.METERS)
+            )
+        ).isEqualTo(0.083, within(0.00001))  // TODO: epsilon
+    }
+
+    @Test
     fun `test simple`() {
         val strokesGained = StrokesGained(
             listOf(
