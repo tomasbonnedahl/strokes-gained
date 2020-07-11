@@ -71,7 +71,6 @@ class BenchmarkAndInterpolationTest {
                     DenominatedValue(110.0, DistanceUnit.METERS) to 3.0
                 )
             )
-
         )
 
         val subject = BenchmarkAndInterpolation(benchmark)
