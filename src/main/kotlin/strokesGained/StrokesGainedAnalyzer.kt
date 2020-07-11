@@ -1,3 +1,10 @@
+package strokesGained
+
+import BenchmarkAndInterpolation
+import DenominatedValue
+import Ground
+import Round
+
 class StrokesGainedAnalyzer(
     private val benchmarkAndInterpolation: BenchmarkAndInterpolation  // TODO: interface
 ) {

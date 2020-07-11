@@ -1,3 +1,5 @@
+package strokesGained
+
 class StrokesGainedForAllDistances(
     private val strokesGainedByDistance: Map<Int, Double>
 ) {

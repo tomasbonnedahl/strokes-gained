@@ -1,3 +1,8 @@
+package strokesGained
+
+import DenominatedValue
+import Ground
+
 class StrokesGainedPgaTourBenchmarkRepository(
     // ******
     // TODO: Let this class be outside domain and fetch from db in any way that is fitting

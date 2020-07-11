@@ -1,3 +1,8 @@
+package strokesGained
+
+import DenominatedValue
+import Ground
+
 // TODO: How to indicate if using Meters, Yards, Feet? By using template? <Meter>?
 interface StrokesGainedBenchmarkRepository {
     fun get(denominatedValue: DenominatedValue, ground: Ground): Double

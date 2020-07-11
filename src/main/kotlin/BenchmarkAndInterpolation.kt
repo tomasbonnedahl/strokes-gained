@@ -1,3 +1,5 @@
+import strokesGained.StrokesGainedBenchmarkRepository
+import strokesGained.StrokesGainedForAllDistances
 import kotlin.math.roundToInt
 
 class BenchmarkAndInterpolation(

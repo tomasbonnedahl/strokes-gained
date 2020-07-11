@@ -1,6 +1,7 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Test
+import strokesGained.*
 import java.util.*
 
 class DummyTest {

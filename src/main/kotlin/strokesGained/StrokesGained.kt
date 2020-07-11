@@ -1,3 +1,8 @@
+package strokesGained
+
+import DenominatedValue
+import Ground
+
 // TODO: Interface instead with several implementations? Depend on interface, etc.
 class StrokesGained(
     private val all: List<StrokesGainedData>

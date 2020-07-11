@@ -1,3 +1,5 @@
+import strokesGained.StrokeFFS
+
 // TODO: Interface to this?
 class Converter(
     private val groundMapper: GroundMapper
