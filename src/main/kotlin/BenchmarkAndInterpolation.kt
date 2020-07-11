@@ -1,7 +1,7 @@
 import kotlin.math.roundToInt
 
 class BenchmarkAndInterpolation(
-    // TODO: Accept interpolation interface?
+    // TODO: Also accept an interpolation interface?
     private val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
 ) {
     private val strokesGainedByGround = mutableMapOf<Ground, StrokesGainedForAllDistances>()
@@ -21,22 +21,21 @@ class BenchmarkAndInterpolation(
         var retVal = mutableMapOf<Int, Double>()
 
         for (i in (keysSorted.indices.take(keysSorted.size - 1))) {
-            val key = keysSorted[i]
-            val theValue = strokesGainedByDistance[key]!!
+            val distance1 = keysSorted[i]
+            val strokesGained1 = strokesGainedByDistance[distance1]!!
 
-            val keyNext = keysSorted[i + 1]
-            val theValueNext = strokesGainedByDistance[keyNext]!!
+            val distance2 = keysSorted[i + 1]
+            val strokesGained2 = strokesGainedByDistance[distance2]!!
 
-            val something = extend(
-                key.distance.roundToInt(),
-                theValue,
-                keyNext.distance.roundToInt(),
-                theValueNext,
-                3
+            val strokesGainedByInterpolatedDistances = extend(
+                distance1.distance.roundToInt(),
+                strokesGained1,
+                distance2.distance.roundToInt(),
+                strokesGained2,
+                3  // TODO: Configurable
             ).toMap()
 
-            retVal.putAll(something)
-
+            retVal.putAll(strokesGainedByInterpolatedDistances)
         }
 
         // Add the last distance element which was excluded in the loop
@@ -54,7 +53,5 @@ class BenchmarkAndInterpolation(
                 throw IllegalArgumentException("Ground $ground not configured")  // TODO: Custom exception
             }
         ).get(denominatedValue.distance.toInt())
-
-//        return strokesGainedByGround[ground]!!.get(denominatedValue.distance.toInt())
     }
 }

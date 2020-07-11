@@ -1,5 +1,5 @@
 class StrokesGainedForAllDistances(
-    val strokesGainedByDistance: Map<Int, Double>
+    private val strokesGainedByDistance: Map<Int, Double>
 ) {
     fun get(distance: Int): Double {
         return strokesGainedByDistance.getOrElse(distance, {

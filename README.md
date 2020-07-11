@@ -1,9 +1,10 @@
 #### TODO
 * Domain model (core)
-* Spring boot (component)
+* Spring boot (component) (how to pass configs with default values?)
 * Coroutines
 * Docker
 * k8s
-* Pubsub
-* Redux
-* Bootstrap
+* GCP
+* Pubsub (GCP?)
+* React/Redux
+* Bootstrap (UI)
