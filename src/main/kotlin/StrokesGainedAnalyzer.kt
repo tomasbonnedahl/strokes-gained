@@ -7,18 +7,10 @@ class StrokesGainedAnalyzer(
     fun analyze(
         round: Round
     ): StrokesGained {
-        val result = round.strokesPerHole.map { it ->
-            calculateStrokesGained(it)
-        }
-
-        result.forEach {
-            it.forEach { it2 ->
-                println("it2 = ${it2}")
-            }
-        }
-
         return StrokesGained(
-            result.flatten()
+            round.strokesPerHole.map { strokesForHole ->
+                calculateStrokesGained(strokesForHole)
+            }.flatten()
         )
     }
 
@@ -26,7 +18,7 @@ class StrokesGainedAnalyzer(
         rounds: List<Round>
     ): StrokesGained {
 //        val asf = rounds.map(this::analyze).flatMap { it ->  }
-        TODO("ASF")
+        TODO("Return one object for all rounds, additative")
     }
 
     private fun calculateStrokesGained(strokesPerHole: StrokesForHole): List<StrokesGainedData> {
