@@ -13,6 +13,7 @@ class ConverterTest {
                 "F" to Ground.FAIRWAY,
                 "R" to Ground.ROUGH,
                 "G" to Ground.GREEN
+                // TODO: Add TI (tap-in)
             )
 
             override fun ground(text: String): Ground {
