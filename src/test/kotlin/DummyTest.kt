@@ -4,10 +4,33 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 class DummyTest {
-    val benchmarkTemp = StrokesGainedPgaTourBenchmarkRepository(
+    class StrokesGainedRepoTestImpl(
+        // TODO: Remove these
+        val strokesByDistanceTee: Map<DenominatedValue, Double>,
+        val strokesByDistanceFairway: Map<DenominatedValue, Double>,
+        val strokesByDistanceRough: Map<DenominatedValue, Double>,
+        val strokesByDistanceRecovery: Map<DenominatedValue, Double>,
+        val strokesByDistancePutt: Map<DenominatedValue, Double>,
+
+        val strokesByDistanceByGround: Map<Ground, Map<DenominatedValue, Double>>
+    ): StrokesGainedBenchmarkRepository {
+        override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
+            return strokesByDistanceByGround[ground]!![denominatedValue]!!
+        }
+
+        override fun getAll(ground: Ground): Map<DenominatedValue, Double> {
+            return strokesByDistanceByGround[ground]!!
+        }
+
+        override fun getGrounds(): Set<Ground> {
+            return strokesByDistanceByGround.keys
+        }
+    }
+
+    val benchmarkTemp = StrokesGainedRepoTestImpl(
         strokesByDistanceTee = mapOf(
             DenominatedValue(91.0, DistanceUnit.METERS) to 2.92,
-            DenominatedValue(110.0, DistanceUnit.METERS) to 2.99,  // TODO: Use DenominatedValue (always have a distance connected to the unit across the domain)
+            DenominatedValue(110.0, DistanceUnit.METERS) to 2.99,
             DenominatedValue(128.0, DistanceUnit.METERS) to 2.97,
             DenominatedValue(146.0, DistanceUnit.METERS) to 2.99,
             DenominatedValue(165.0, DistanceUnit.METERS) to 3.05,
@@ -33,159 +56,116 @@ class DummyTest {
             DenominatedValue(530.0, DistanceUnit.METERS) to 4.79,
             DenominatedValue(549.0, DistanceUnit.METERS) to 4.82
         ),
-
-        // TODO: Who's responsible of interpolating??
         strokesByDistanceFairway = mapOf(
-            91.0 to 2.92,
-            110.0 to 2.99,  // TODO: Use DenominatedValue (always have a distance connected to the unit across the domain)
-            128.0 to 2.97,
-            146.0 to 2.99,
-            165.0 to 3.05,
-            183.0 to 3.12,
-            201.0 to 3.17,
-            219.0 to 3.25,
-            238.0 to 3.45,
-            256.0 to 3.65,
-            274.0 to 3.71,
-            293.0 to 3.79,
-            311.0 to 3.86,
-            329.0 to 3.92,
-            347.0 to 3.96,
-            366.0 to 3.99,
-            384.0 to 4.02,
-            402.0 to 4.08,
-            421.0 to 4.17,
-            439.0 to 4.28,
-            457.0 to 4.41,
-            475.0 to 4.54,
-            494.0 to 4.65,
-            512.0 to 4.74,
-            530.0 to 4.79,
-            549.0 to 4.82
+            DenominatedValue(91.0, DistanceUnit.METERS) to 2.92,
+            DenominatedValue(110.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(128.0, DistanceUnit.METERS) to 2.97,
+            DenominatedValue(146.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(165.0, DistanceUnit.METERS) to 3.05,
+            DenominatedValue(183.0, DistanceUnit.METERS) to 3.12,
+            DenominatedValue(201.0, DistanceUnit.METERS) to 3.17,
+            DenominatedValue(219.0, DistanceUnit.METERS) to 3.25,
+            DenominatedValue(238.0, DistanceUnit.METERS) to 3.45,
+            DenominatedValue(256.0, DistanceUnit.METERS) to 3.65,
+            DenominatedValue(274.0, DistanceUnit.METERS) to 3.71,
+            DenominatedValue(293.0, DistanceUnit.METERS) to 3.79,
+            DenominatedValue(311.0, DistanceUnit.METERS) to 3.86,
+            DenominatedValue(329.0, DistanceUnit.METERS) to 3.92,
+            DenominatedValue(347.0, DistanceUnit.METERS) to 3.96,
+            DenominatedValue(366.0, DistanceUnit.METERS) to 3.99,
+            DenominatedValue(384.0, DistanceUnit.METERS) to 4.02,
+            DenominatedValue(402.0, DistanceUnit.METERS) to 4.08,
+            DenominatedValue(421.0, DistanceUnit.METERS) to 4.17,
+            DenominatedValue(439.0, DistanceUnit.METERS) to 4.28,
+            DenominatedValue(457.0, DistanceUnit.METERS) to 4.41,
+            DenominatedValue(475.0, DistanceUnit.METERS) to 4.54,
+            DenominatedValue(494.0, DistanceUnit.METERS) to 4.65,
+            DenominatedValue(512.0, DistanceUnit.METERS) to 4.74,
+            DenominatedValue(530.0, DistanceUnit.METERS) to 4.79,
+            DenominatedValue(549.0, DistanceUnit.METERS) to 4.82
         ),
         strokesByDistanceRough = mapOf(
-            91.0 to 2.92,
-            110.0 to 2.99,  // TODO: Use DenominatedValue (always have a distance connected to the unit across the domain)
-            128.0 to 2.97,
-            146.0 to 2.99,
-            165.0 to 3.05,
-            183.0 to 3.12,
-            201.0 to 3.17,
-            219.0 to 3.25,
-            238.0 to 3.45,
-            256.0 to 3.65,
-            274.0 to 3.71,
-            293.0 to 3.79,
-            311.0 to 3.86,
-            329.0 to 3.92,
-            347.0 to 3.96,
-            366.0 to 3.99,
-            384.0 to 4.02,
-            402.0 to 4.08,
-            421.0 to 4.17,
-            439.0 to 4.28,
-            457.0 to 4.41,
-            475.0 to 4.54,
-            494.0 to 4.65,
-            512.0 to 4.74,
-            530.0 to 4.79,
-            549.0 to 4.82
+            DenominatedValue(91.0, DistanceUnit.METERS) to 2.92,
+            DenominatedValue(110.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(128.0, DistanceUnit.METERS) to 2.97,
+            DenominatedValue(146.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(165.0, DistanceUnit.METERS) to 3.05,
+            DenominatedValue(183.0, DistanceUnit.METERS) to 3.12,
+            DenominatedValue(201.0, DistanceUnit.METERS) to 3.17,
+            DenominatedValue(219.0, DistanceUnit.METERS) to 3.25,
+            DenominatedValue(238.0, DistanceUnit.METERS) to 3.45,
+            DenominatedValue(256.0, DistanceUnit.METERS) to 3.65,
+            DenominatedValue(274.0, DistanceUnit.METERS) to 3.71,
+            DenominatedValue(293.0, DistanceUnit.METERS) to 3.79,
+            DenominatedValue(311.0, DistanceUnit.METERS) to 3.86,
+            DenominatedValue(329.0, DistanceUnit.METERS) to 3.92,
+            DenominatedValue(347.0, DistanceUnit.METERS) to 3.96,
+            DenominatedValue(366.0, DistanceUnit.METERS) to 3.99,
+            DenominatedValue(384.0, DistanceUnit.METERS) to 4.02,
+            DenominatedValue(402.0, DistanceUnit.METERS) to 4.08,
+            DenominatedValue(421.0, DistanceUnit.METERS) to 4.17,
+            DenominatedValue(439.0, DistanceUnit.METERS) to 4.28,
+            DenominatedValue(457.0, DistanceUnit.METERS) to 4.41,
+            DenominatedValue(475.0, DistanceUnit.METERS) to 4.54,
+            DenominatedValue(494.0, DistanceUnit.METERS) to 4.65,
+            DenominatedValue(512.0, DistanceUnit.METERS) to 4.74,
+            DenominatedValue(530.0, DistanceUnit.METERS) to 4.79,
+            DenominatedValue(549.0, DistanceUnit.METERS) to 4.82
         ),
         strokesByDistanceRecovery = mapOf(
-            91.0 to 2.92,
-            110.0 to 2.99,  // TODO: Use DenominatedValue (always have a distance connected to the unit across the domain)
-            128.0 to 2.97,
-            146.0 to 2.99,
-            165.0 to 3.05,
-            183.0 to 3.12,
-            201.0 to 3.17,
-            219.0 to 3.25,
-            238.0 to 3.45,
-            256.0 to 3.65,
-            274.0 to 3.71,
-            293.0 to 3.79,
-            311.0 to 3.86,
-            329.0 to 3.92,
-            347.0 to 3.96,
-            366.0 to 3.99,
-            384.0 to 4.02,
-            402.0 to 4.08,
-            421.0 to 4.17,
-            439.0 to 4.28,
-            457.0 to 4.41,
-            475.0 to 4.54,
-            494.0 to 4.65,
-            512.0 to 4.74,
-            530.0 to 4.79,
-            549.0 to 4.82
+            DenominatedValue(91.0, DistanceUnit.METERS) to 2.92,
+            DenominatedValue(110.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(128.0, DistanceUnit.METERS) to 2.97,
+            DenominatedValue(146.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(165.0, DistanceUnit.METERS) to 3.05,
+            DenominatedValue(183.0, DistanceUnit.METERS) to 3.12,
+            DenominatedValue(201.0, DistanceUnit.METERS) to 3.17,
+            DenominatedValue(219.0, DistanceUnit.METERS) to 3.25,
+            DenominatedValue(238.0, DistanceUnit.METERS) to 3.45,
+            DenominatedValue(256.0, DistanceUnit.METERS) to 3.65,
+            DenominatedValue(274.0, DistanceUnit.METERS) to 3.71,
+            DenominatedValue(293.0, DistanceUnit.METERS) to 3.79,
+            DenominatedValue(311.0, DistanceUnit.METERS) to 3.86,
+            DenominatedValue(329.0, DistanceUnit.METERS) to 3.92,
+            DenominatedValue(347.0, DistanceUnit.METERS) to 3.96,
+            DenominatedValue(366.0, DistanceUnit.METERS) to 3.99,
+            DenominatedValue(384.0, DistanceUnit.METERS) to 4.02,
+            DenominatedValue(402.0, DistanceUnit.METERS) to 4.08,
+            DenominatedValue(421.0, DistanceUnit.METERS) to 4.17,
+            DenominatedValue(439.0, DistanceUnit.METERS) to 4.28,
+            DenominatedValue(457.0, DistanceUnit.METERS) to 4.41,
+            DenominatedValue(475.0, DistanceUnit.METERS) to 4.54,
+            DenominatedValue(494.0, DistanceUnit.METERS) to 4.65,
+            DenominatedValue(512.0, DistanceUnit.METERS) to 4.74,
+            DenominatedValue(530.0, DistanceUnit.METERS) to 4.79,
+            DenominatedValue(549.0, DistanceUnit.METERS) to 4.82
         ),
         strokesByDistancePutt = mapOf(
-            1.0 to 2.92,
-            2.0 to 2.99,
-            3.0 to 1.69,
-            4.0 to 2.99,
-            20.0 to 3.05,
-            30.0 to 3.12
-        )
+            DenominatedValue(1.0, DistanceUnit.METERS) to 2.92,
+            DenominatedValue(2.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(3.0, DistanceUnit.METERS) to 1.69,
+            DenominatedValue(4.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(20.0, DistanceUnit.METERS) to 3.05,
+            DenominatedValue(30.0, DistanceUnit.METERS) to 3.12
+        ),
+        strokesByDistanceByGround = emptyMap()
     )
 
     @Test
-    fun `test converting to sg old`() {
-//        val hole = HoleEntry(
-//            listOf(
-//                DistanceToPin("431T"),
-//                DistanceToPin("210R"),
-//                DistanceToPin("39F"),
-//                DistanceToPin("8G"),
-//                DistanceToPin("0.5G")
-//            ),
-//            1,
-//            5,
-//            2
-//        )
-
-//        val roundEntry = RoundEntry(
-//            CourseAndDate(
-//                "Täby GK",
-//                Date(2020, 6, 18)
-//            ),
-//            listOf(hole),
-//            DistanceUnit.METERS
-//        )
-//
-//        class GroundMapperImpl : GroundMapper {
-//            val GroundByCharacter = mapOf(
-//                "T" to Ground.TEE,
-//                "F" to Ground.FAIRWAY,
-//                "R" to Ground.ROUGH,
-//                "G" to Ground.GREEN
-//            )
-//
-//            override fun ground(text: String): Ground {
-//                return GroundByCharacter[text] ?: throw IllegalArgumentException("Can't interpret $text")
-//            }
-//
-//            override fun penaltyCharacter(): String {
-//                return "P"
-//            }
-//        }
-//
-//        val converter = Converter(GroundMapperImpl())
-    }
-
-    @Test
     fun `test converting to sg`() {
-        val benchmark = StrokesGainedPgaTourBenchmarkRepository(
-            strokesByDistanceTee = mapOf(
-                DenominatedValue(128.0, DistanceUnit.METERS) to 3.0
-            ),
-
-            // TODO: Who's responsible of interpolating??
+        val benchmark = StrokesGainedRepoTestImpl(
+            strokesByDistanceTee = emptyMap(),
             strokesByDistanceFairway = emptyMap(),
             strokesByDistanceRough = emptyMap(),
             strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = mapOf(
-                3.0 to 1.7
+            strokesByDistancePutt = emptyMap(),
+            strokesByDistanceByGround = mapOf(
+                Ground.TEE to mapOf(
+                    DenominatedValue(128.0, DistanceUnit.METERS) to 3.0
+                ),
+                Ground.GREEN to mapOf(
+                    DenominatedValue(3.0, DistanceUnit.METERS) to 1.7
+                )
             )
         )
 
@@ -215,7 +195,6 @@ class DummyTest {
             )
         )
 
-//        val strokesGained = StrokesGainedAnalyzer(benchmark).analyze(round)
         val strokesGained = StrokesGainedAnalyzer(
             BenchmarkAndInterpolation(benchmark)
         ).analyze(round)

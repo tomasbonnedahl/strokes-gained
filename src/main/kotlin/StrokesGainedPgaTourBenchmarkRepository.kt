@@ -1,32 +1,11 @@
 class StrokesGainedPgaTourBenchmarkRepository(
+    // ******
+    // TODO: Let this class be outside domain and fetch from db in any way that is fitting
+    // ******
+
     // TODO: Add sand
-//    val strokesByDistanceTee: Map<Double, Double>,  // TODO: Double -> DenominatedValue
-    val strokesByDistanceTee: Map<DenominatedValue, Double>,  // TODO: Double -> DenominatedValue
-    val strokesByDistanceFairway: Map<Double, Double>,
-    val strokesByDistanceRough: Map<Double, Double>,
-    val strokesByDistanceRecovery: Map<Double, Double>,
-    val strokesByDistancePutt: Map<Double, Double>
+    private val theMap: Map<Ground, Map<DenominatedValue, Double>>
 ): StrokesGainedBenchmarkRepository {
-    override fun tee(distance: Double): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun fairway(distance: Double): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun rough(distance: Double): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun recovery(distance: Double): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun puttInFeet(distance: Double): Double {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
         TODO("Not impl")
 //        return when (ground) {
@@ -38,19 +17,13 @@ class StrokesGainedPgaTourBenchmarkRepository(
     }
 
     override fun getAll(ground: Ground): Map<DenominatedValue, Double> {
-        return when (ground) {
-//            Ground.TEE -> mapOf(
-//                DenominatedValue(100.0, DistanceUnit.METERS) to 2.5,
-//                DenominatedValue(500.0, DistanceUnit.METERS) to 4.5
-//                )
-            Ground.TEE -> strokesByDistanceTee
-            else -> TODO("Not implemented")
-        }
+        return theMap.getOrElse(ground, {
+            throw IllegalArgumentException("Ground $ground not supported")
+        })
     }
 
     override fun getGrounds(): Set<Ground> {
         // TODO: Data driven? Add Recovery and Sand
-//        return setOf(Ground.TEE, Ground.FAIRWAY, Ground.ROUGH, Ground.GREEN)
-        return setOf(Ground.TEE)
+        return theMap.keys
     }
 }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class BenchmarkAndInterpolationTest {
     @Test
     fun `test simple interpolation`() {
-        val benchmark = StrokesGainedPgaTourBenchmarkRepository(
+        val benchmark = DummyTest.StrokesGainedRepoTestImpl(  // TODO: Put this somewhere else
             strokesByDistanceTee = mapOf(
                 DenominatedValue(130.0, DistanceUnit.METERS) to 3.0,
                 DenominatedValue(140.0, DistanceUnit.METERS) to 3.6
@@ -16,7 +16,8 @@ class BenchmarkAndInterpolationTest {
             strokesByDistanceFairway = emptyMap(),
             strokesByDistanceRough = emptyMap(),
             strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = emptyMap()
+            strokesByDistancePutt = emptyMap(),
+            strokesByDistanceByGround = emptyMap()
         )
 
         val subject = BenchmarkAndInterpolation(benchmark)
@@ -37,7 +38,7 @@ class BenchmarkAndInterpolationTest {
 
     @Test
     fun `test interpolation with more than two data points`() {
-        val benchmark = StrokesGainedPgaTourBenchmarkRepository(
+        val benchmark = DummyTest.StrokesGainedRepoTestImpl(
             strokesByDistanceTee = mapOf(
                 DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
                 DenominatedValue(110.0, DistanceUnit.METERS) to 3.0,
@@ -46,7 +47,8 @@ class BenchmarkAndInterpolationTest {
             strokesByDistanceFairway = emptyMap(),
             strokesByDistanceRough = emptyMap(),
             strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = emptyMap()
+            strokesByDistancePutt = emptyMap(),
+            strokesByDistanceByGround = emptyMap()
         )
 
         val subject = BenchmarkAndInterpolation(benchmark)
@@ -67,7 +69,7 @@ class BenchmarkAndInterpolationTest {
 
     @Test()
     fun `test getting distance not supported, expect exception`() {
-        val benchmark = StrokesGainedPgaTourBenchmarkRepository(
+        val benchmark = DummyTest.StrokesGainedRepoTestImpl(
             strokesByDistanceTee = mapOf(
                 DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
                 DenominatedValue(110.0, DistanceUnit.METERS) to 3.0
@@ -75,7 +77,9 @@ class BenchmarkAndInterpolationTest {
             strokesByDistanceFairway = emptyMap(),
             strokesByDistanceRough = emptyMap(),
             strokesByDistanceRecovery = emptyMap(),
-            strokesByDistancePutt = emptyMap()
+            strokesByDistancePutt = emptyMap(),
+            strokesByDistanceByGround = emptyMap()
+
         )
 
         val subject = BenchmarkAndInterpolation(benchmark)
@@ -89,28 +93,7 @@ class BenchmarkAndInterpolationTest {
 
     @Test
     fun `test getting non-supported ground, expect exception`() {
-
         class StrokesGainedBenchmarkRepoTestImpl: StrokesGainedBenchmarkRepository {
-            override fun tee(distance: Double): Double {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun fairway(distance: Double): Double {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun rough(distance: Double): Double {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun recovery(distance: Double): Double {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun puttInFeet(distance: Double): Double {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
             override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
