@@ -1,15 +1,15 @@
 import kotlin.math.roundToInt
 
 class BenchmarkAndInterpolation(
-    // TODO: Accept interpolation interface
-    val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
+    // TODO: Accept interpolation interface?
+    private val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
 ) {
-    private val valuesByGround = mutableMapOf<Ground, StrokesGainedForAllDistances>()
+    private val strokesGainedByGround = mutableMapOf<Ground, StrokesGainedForAllDistances>()
 
     init {
         // TODO: Do in constructor or companion object? Use cache or create object once?
         strokesGainedBenchmarkRepository.getGrounds().forEach { ground ->
-            valuesByGround.putIfAbsent(ground, calc(ground))
+            strokesGainedByGround.putIfAbsent(ground, calc(ground))
         }
     }
 
@@ -17,16 +17,12 @@ class BenchmarkAndInterpolation(
         val strokesGainedByDistance = strokesGainedBenchmarkRepository.getAll(ground)
 
         val keysSorted = strokesGainedByDistance.keys.sortedBy { it.distance }
-//        for (i in keysSorted - 1) {
-//        for (i in keysSorted - 1) {
 
         var retVal = mutableMapOf<Int, Double>()
 
         for (i in (keysSorted.indices.take(keysSorted.size - 1))) {
             val key = keysSorted[i]
             val theValue = strokesGainedByDistance[key]!!
-            println("i = ${i} ${key} ${theValue}")
-//            val theValue2 = asfaf[i + 1]!!
 
             val keyNext = keysSorted[i + 1]
             val theValueNext = strokesGainedByDistance[keyNext]!!
@@ -41,18 +37,24 @@ class BenchmarkAndInterpolation(
 
             retVal.putAll(something)
 
-            println("something = ${something}")
         }
 
-        // Add the last which was excluded in the loop
-        retVal.put(keysSorted.last().distance.roundToInt(), strokesGainedByDistance[keysSorted.last()]!!)
+        // Add the last distance element which was excluded in the loop
+        retVal.put(
+            keysSorted.last().distance.roundToInt(),
+            strokesGainedByDistance[keysSorted.last()]!!
+        )
 
-        println("retVal = ${retVal}")
         return StrokesGainedForAllDistances(retVal)
     }
 
     fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
-        // TODO: Safety
-        return valuesByGround[ground]!!.get(denominatedValue.distance.toInt())
+        return strokesGainedByGround.getOrElse(
+            ground, {
+                throw IllegalArgumentException("Ground $ground not configured")  // TODO: Custom exception
+            }
+        ).get(denominatedValue.distance.toInt())
+
+//        return strokesGainedByGround[ground]!!.get(denominatedValue.distance.toInt())
     }
 }

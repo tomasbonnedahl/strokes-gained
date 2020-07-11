@@ -1,3 +1,6 @@
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
+import io.kotest.matchers.string.startWith
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Test
@@ -60,6 +63,78 @@ class BenchmarkAndInterpolationTest {
                 )
             ).isEqualTo(expectedStrokesGained, within(0.000001))
         }
+    }
 
+    @Test()
+    fun `test getting distance not supported, expect exception`() {
+        val benchmark = StrokesGainedPgaTourBenchmarkRepository(
+            strokesByDistanceTee = mapOf(
+                DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
+                DenominatedValue(110.0, DistanceUnit.METERS) to 3.0
+            ),
+            strokesByDistanceFairway = emptyMap(),
+            strokesByDistanceRough = emptyMap(),
+            strokesByDistanceRecovery = emptyMap(),
+            strokesByDistancePutt = emptyMap()
+        )
+
+        val subject = BenchmarkAndInterpolation(benchmark)
+
+        val exception = shouldThrow<IllegalArgumentException> {
+            subject.get(DenominatedValue(200.0, DistanceUnit.METERS), Ground.TEE)
+        }
+
+        exception.message should startWith("Distance 200 not available")
+    }
+
+    @Test
+    fun `test getting non-supported ground, expect exception`() {
+
+        class StrokesGainedBenchmarkRepoTestImpl: StrokesGainedBenchmarkRepository {
+            override fun tee(distance: Double): Double {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun fairway(distance: Double): Double {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun rough(distance: Double): Double {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun recovery(distance: Double): Double {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun puttInFeet(distance: Double): Double {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun getAll(ground: Ground): Map<DenominatedValue, Double> {
+                return mapOf(
+                    DenominatedValue(100.0, DistanceUnit.METERS) to 1.23
+                )
+            }
+
+            override fun getGrounds(): Set<Ground> {
+                return setOf(Ground.FAIRWAY)
+            }
+        }
+
+        val subject = BenchmarkAndInterpolation(StrokesGainedBenchmarkRepoTestImpl())
+
+        val exception = shouldThrow<IllegalArgumentException> {
+            subject.get(
+                DenominatedValue(100.0, DistanceUnit.METERS),
+                Ground.TEE
+            )
+        }
+
+        exception.message should startWith("Ground TEE not configured")
     }
 }

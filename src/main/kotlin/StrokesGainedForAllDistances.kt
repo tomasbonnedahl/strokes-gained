@@ -1,7 +1,9 @@
 class StrokesGainedForAllDistances(
-    val apa: Map<Int, Double>
+    val strokesGainedByDistance: Map<Int, Double>
 ) {
     fun get(distance: Int): Double {
-        return apa.get(distance)!! // TODO: Safety
+        return strokesGainedByDistance.getOrElse(distance, {
+            throw IllegalArgumentException("Distance $distance not available")
+        })
     }
 }
