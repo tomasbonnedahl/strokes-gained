@@ -4,34 +4,34 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 class DummyTest {
-    val benchmarkTemp = StrokesGainedPgaTourBenchmarkService(
+    val benchmarkTemp = StrokesGainedPgaTourBenchmarkRepository(
         strokesByDistanceTee = mapOf(
-            91.0 to 2.92,
-            110.0 to 2.99,  // TODO: Use DenominatedValue (always have a distance connected to the unit across the domain)
-            128.0 to 2.97,
-            146.0 to 2.99,
-            165.0 to 3.05,
-            183.0 to 3.12,
-            201.0 to 3.17,
-            219.0 to 3.25,
-            238.0 to 3.45,
-            256.0 to 3.65,
-            274.0 to 3.71,
-            293.0 to 3.79,
-            311.0 to 3.86,
-            329.0 to 3.92,
-            347.0 to 3.96,
-            366.0 to 3.99,
-            384.0 to 4.02,
-            402.0 to 4.08,
-            421.0 to 4.17,
-            439.0 to 4.28,
-            457.0 to 4.41,
-            475.0 to 4.54,
-            494.0 to 4.65,
-            512.0 to 4.74,
-            530.0 to 4.79,
-            549.0 to 4.82
+            DenominatedValue(91.0, DistanceUnit.METERS) to 2.92,
+            DenominatedValue(110.0, DistanceUnit.METERS) to 2.99,  // TODO: Use DenominatedValue (always have a distance connected to the unit across the domain)
+            DenominatedValue(128.0, DistanceUnit.METERS) to 2.97,
+            DenominatedValue(146.0, DistanceUnit.METERS) to 2.99,
+            DenominatedValue(165.0, DistanceUnit.METERS) to 3.05,
+            DenominatedValue(183.0, DistanceUnit.METERS) to 3.12,
+            DenominatedValue(201.0, DistanceUnit.METERS) to 3.17,
+            DenominatedValue(219.0, DistanceUnit.METERS) to 3.25,
+            DenominatedValue(238.0, DistanceUnit.METERS) to 3.45,
+            DenominatedValue(256.0, DistanceUnit.METERS) to 3.65,
+            DenominatedValue(274.0, DistanceUnit.METERS) to 3.71,
+            DenominatedValue(293.0, DistanceUnit.METERS) to 3.79,
+            DenominatedValue(311.0, DistanceUnit.METERS) to 3.86,
+            DenominatedValue(329.0, DistanceUnit.METERS) to 3.92,
+            DenominatedValue(347.0, DistanceUnit.METERS) to 3.96,
+            DenominatedValue(366.0, DistanceUnit.METERS) to 3.99,
+            DenominatedValue(384.0, DistanceUnit.METERS) to 4.02,
+            DenominatedValue(402.0, DistanceUnit.METERS) to 4.08,
+            DenominatedValue(421.0, DistanceUnit.METERS) to 4.17,
+            DenominatedValue(439.0, DistanceUnit.METERS) to 4.28,
+            DenominatedValue(457.0, DistanceUnit.METERS) to 4.41,
+            DenominatedValue(475.0, DistanceUnit.METERS) to 4.54,
+            DenominatedValue(494.0, DistanceUnit.METERS) to 4.65,
+            DenominatedValue(512.0, DistanceUnit.METERS) to 4.74,
+            DenominatedValue(530.0, DistanceUnit.METERS) to 4.79,
+            DenominatedValue(549.0, DistanceUnit.METERS) to 4.82
         ),
 
         // TODO: Who's responsible of interpolating??
@@ -175,9 +175,9 @@ class DummyTest {
 
     @Test
     fun `test converting to sg`() {
-        val benchmark = StrokesGainedPgaTourBenchmarkService(
+        val benchmark = StrokesGainedPgaTourBenchmarkRepository(
             strokesByDistanceTee = mapOf(
-                128.0 to 3.0
+                DenominatedValue(128.0, DistanceUnit.METERS) to 3.0
             ),
 
             // TODO: Who's responsible of interpolating??
@@ -215,7 +215,10 @@ class DummyTest {
             )
         )
 
-        val strokesGained = StrokesGainedAnalyzer(benchmark).analyze(round)
+//        val strokesGained = StrokesGainedAnalyzer(benchmark).analyze(round)
+        val strokesGained = StrokesGainedAnalyzer(
+            BenchmarkAndInterpolation(benchmark)
+        ).analyze(round)
 
         // TODO: Should be able to configure the brackets to use, i.e. 'total', 'tee', 'Fairway 125-150', etc.
         assertThat(strokesGained.total()).isEqualTo(0.3, within(0.0001))

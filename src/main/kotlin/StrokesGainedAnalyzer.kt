@@ -1,5 +1,8 @@
 class StrokesGainedAnalyzer(
-    val strokesGainedBenchmarkService: StrokesGainedBenchmarkService
+//    val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
+//    val strokesGainedPgaTourBenchmarkRepository: StrokesGainedPgaTourBenchmarkRepository
+//    val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
+    val benchmarkAndInterpolation: BenchmarkAndInterpolation  // TODO: interface
 ) {
     fun analyze(
         round: Round
@@ -8,7 +11,7 @@ class StrokesGainedAnalyzer(
             calculateStrokesGained(it)
         }
 
-        result.forEach { it ->
+        result.forEach {
             it.forEach { it2 ->
                 println("it2 = ${it2}")
             }
@@ -35,17 +38,11 @@ class StrokesGainedAnalyzer(
         for (i in strokesPerHole.distances.indices - 1) {
             // Starting on the first, iterating up until the second to last
             println("i = ${i}")
-            val strokesGained1 = strokesGainedFromBenchmark(
-                strokesPerHole.distances[i].distanceToPin,
-                strokesPerHole.distances[i].ground
-            )
 
-            val strokesGained2 = strokesGainedFromBenchmark(
-                strokesPerHole.distances[i + 1].distanceToPin,
-                strokesPerHole.distances[i + 1].ground
+            val sg = calcSg(
+                strokesPerHole.distances[i],
+                strokesPerHole.distances[i + 1]
             )
-
-            val sg = strokesGained1 - strokesGained2 - 1 - if (strokesPerHole.distances[i].leadToPenalty) 1 else 0
 
             sgs.add(
                 StrokesGainedData(
@@ -58,10 +55,28 @@ class StrokesGainedAnalyzer(
         return sgs
     }
 
+    private fun calcSg(
+        stroke: StrokeFFS,
+        nextStroke: StrokeFFS
+    ): Double {
+        val sgStroke = strokesGainedFromBenchmark(
+            stroke.distanceToPin,
+            stroke.ground
+        )
+
+        val sgNextStroke = strokesGainedFromBenchmark(
+            nextStroke.distanceToPin,
+            nextStroke.ground
+        )
+
+        return sgStroke - sgNextStroke - 1 - if (stroke.leadToPenalty) 1 else 0
+    }
+
     private fun strokesGainedFromBenchmark(
         denominatedValue: DenominatedValue,
         ground: Ground
     ): Double {
-        return strokesGainedBenchmarkService.get(denominatedValue, ground)
+//        return strokesGainedBenchmarkRepository.get(denominatedValue, ground)
+        return benchmarkAndInterpolation.get(denominatedValue, ground)
     }
 }
