@@ -1,8 +1,5 @@
 class StrokesGainedAnalyzer(
-//    val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
-//    val strokesGainedPgaTourBenchmarkRepository: StrokesGainedPgaTourBenchmarkRepository
-//    val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
-    val benchmarkAndInterpolation: BenchmarkAndInterpolation  // TODO: interface
+    private val benchmarkAndInterpolation: BenchmarkAndInterpolation  // TODO: interface
 ) {
     fun analyze(
         round: Round
@@ -22,7 +19,6 @@ class StrokesGainedAnalyzer(
     }
 
     private fun calculateStrokesGained(strokesPerHole: StrokesForHole): List<StrokesGainedData> {
-//        distancesToPin.forEach { println("it = ${it}") }
         strokesPerHole.distances.forEach { println("it = ${it}") }
 
         val sgs = mutableListOf<StrokesGainedData>()
@@ -68,7 +64,6 @@ class StrokesGainedAnalyzer(
         denominatedValue: DenominatedValue,
         ground: Ground
     ): Double {
-//        return strokesGainedBenchmarkRepository.get(denominatedValue, ground)
         return benchmarkAndInterpolation.get(denominatedValue, ground)
     }
 }
