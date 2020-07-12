@@ -19,6 +19,8 @@ class Converter(
         return when (lastThingsOfString.length) {
             1 -> groundMapper.ground(lastThingsOfString.last().toString())
             2 -> groundMapper.ground(lastThingsOfString.first().toString())
+            // TODO: Allow for 0.2G input
+            // TODO: Use an arg lib??
             else -> throw IllegalArgumentException("Wrong number of chars following an entry: $lastThingsOfString")
         }
     }

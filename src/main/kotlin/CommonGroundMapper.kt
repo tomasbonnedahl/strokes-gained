@@ -17,6 +17,7 @@ class CommonGroundMapper(
             "F" to Ground.FAIRWAY,
             "R" to Ground.ROUGH,
             "G" to Ground.GREEN
+            // TODO: Add recovery and sand
         )
 
         fun create(): CommonGroundMapper {

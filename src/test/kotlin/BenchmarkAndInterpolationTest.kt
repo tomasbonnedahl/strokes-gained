@@ -9,7 +9,7 @@ import strokesGained.StrokesGainedBenchmarkRepository
 class BenchmarkAndInterpolationTest {
     @Test
     fun `test simple interpolation`() {
-        val benchmark = DummyTest.StrokesGainedRepoTestImpl(  // TODO: Put this somewhere else
+        val benchmark = EndToEndTest.StrokesGainedRepoTestImpl(  // TODO: Put this somewhere else
             strokesByDistanceByGround = mapOf(
                 Ground.TEE to mapOf(
                     DenominatedValue(130.0, DistanceUnit.METERS) to 3.0,
@@ -36,7 +36,7 @@ class BenchmarkAndInterpolationTest {
 
     @Test
     fun `test interpolation with more than two data points`() {
-        val benchmark = DummyTest.StrokesGainedRepoTestImpl(
+        val benchmark = EndToEndTest.StrokesGainedRepoTestImpl(
             strokesByDistanceByGround = mapOf(
                 Ground.TEE to mapOf(
                     DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
@@ -64,7 +64,7 @@ class BenchmarkAndInterpolationTest {
 
     @Test
     fun `test getting distance not supported, expect exception`() {
-        val benchmark = DummyTest.StrokesGainedRepoTestImpl(
+        val benchmark = EndToEndTest.StrokesGainedRepoTestImpl(
             strokesByDistanceByGround = mapOf(
                 Ground.TEE to mapOf(
                     DenominatedValue(100.0, DistanceUnit.METERS) to 2.0,
