@@ -12,7 +12,8 @@ class ConverterTest {
                 "T" to Ground.TEE,
                 "F" to Ground.FAIRWAY,
                 "R" to Ground.ROUGH,
-                "G" to Ground.GREEN
+                "G" to Ground.GREEN,
+                "Rec" to Ground.RECOVERY
                 // TODO: Add TI (tap-in)
             )
 

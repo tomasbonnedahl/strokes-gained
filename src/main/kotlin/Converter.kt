@@ -4,29 +4,42 @@ import strokesGained.StrokeFFS
 class Converter(
     private val groundMapper: GroundMapper
 ) {
+    private fun partition(input: String): Pair<String, String> {
+        return input.partition { c ->
+            c.isDigit()
+        }
+    }
+
     fun fromEntryToStroke(distanceToPin: DistanceToPin): StrokeFFS {
-        val lastThingsOfString = distanceToPin.text.dropWhile(Char::isDigit)
-        val distance = distanceToPin.text.takeWhile(Char::isDigit).toDouble()
+        val distanceAndGround = if (distanceToPin.text.contains(".")) { // TODO: Support ,?
+            val splitOnDecimalSeparator = distanceToPin.text.split(".")
+            val halfDistanceAndGround = partition(splitOnDecimalSeparator[1])
+            halfDistanceAndGround.copy(
+                first = splitOnDecimalSeparator[0] + "." + halfDistanceAndGround.first,
+                second = halfDistanceAndGround.second
+            )
+        } else {
+            partition(distanceToPin.text)
+        }
 
         return StrokeFFS(
-            ground = getGroundFromString(lastThingsOfString),
-            distanceToPin = DenominatedValue(distance, DistanceUnit.METERS),  // TODO: Get as config
-            leadToPenalty = leadToPenalty(lastThingsOfString)
+            ground = getGroundFromString(distanceAndGround.second),
+            distanceToPin = DenominatedValue(distanceAndGround.first.toDouble(), DistanceUnit.METERS),  // TODO: Get as config
+            leadToPenalty = leadToPenalty(distanceAndGround.second)
         )
     }
 
     private fun getGroundFromString(lastThingsOfString: String): Ground {
+        // TODO: Use an arg lib??
         return when (lastThingsOfString.length) {
             1 -> groundMapper.ground(lastThingsOfString.last().toString())
             2 -> groundMapper.ground(lastThingsOfString.first().toString())
-            // TODO: Allow for 0.2G input
-            // TODO: Use an arg lib??
             else -> throw IllegalArgumentException("Wrong number of chars following an entry: $lastThingsOfString")
         }
     }
 
-    private fun leadToPenalty(lastThingsOfString: String): Boolean {
-        return lastThingsOfString.length == 2 && lastThingsOfString.takeLast(1) == groundMapper.penaltyCharacter()
+    private fun leadToPenalty(input: String): Boolean {
+        return input.contains(groundMapper.penaltyCharacter())
     }
 
     companion object {

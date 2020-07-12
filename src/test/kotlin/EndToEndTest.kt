@@ -337,4 +337,25 @@ class EndToEndTest {
         assertThat(strokesGained.fairway()).isEqualTo(-0.544)
         assertThat(strokesGained.green()).isEqualTo(-0.171)
     }
+
+    @Test
+    fun `test taking end of string`() {
+        val s = "0.4G"
+        val asfsa = s.partition { c -> c.isDigit() }
+
+        if (s.contains(".")) { // TODO: Support ,?
+            val x = s.split(".")
+            println("x = ${x}")
+
+            val y = x[1].partition { c -> c.isDigit() }
+            println("y = ${y}")
+
+            val z = x[0] + "." + y.first
+            println("z = ${z}")
+            val zz = z.toDouble()
+        }
+
+        println("asfsa = ${asfsa}")
+
+    }
 }
