@@ -4,12 +4,6 @@ import strokesGained.StrokeFFS
 class Converter(
     private val groundMapper: GroundMapper
 ) {
-    private fun partition(input: String): Pair<String, String> {
-        return input.partition { c ->
-            c.isDigit()
-        }
-    }
-
     fun fromEntryToStroke(distanceToPin: DistanceToPin): StrokeFFS {
         val distanceAndGround = if (distanceToPin.text.contains(".")) { // TODO: Support ,?
             val splitOnDecimalSeparator = distanceToPin.text.split(".")
@@ -29,13 +23,12 @@ class Converter(
         )
     }
 
-    private fun getGroundFromString(lastThingsOfString: String): Ground {
-        // TODO: Use an arg lib??
-        return when (lastThingsOfString.length) {
-            1 -> groundMapper.ground(lastThingsOfString.last().toString())
-            2 -> groundMapper.ground(lastThingsOfString.first().toString())
-            else -> throw IllegalArgumentException("Wrong number of chars following an entry: $lastThingsOfString")
-        }
+    private fun partition(input: String): Pair<String, String> {
+        return input.partition(Char::isDigit)
+    }
+
+    private fun getGroundFromString(input: String): Ground {
+        return groundMapper.ground(input.removeSuffix(groundMapper.penaltyCharacter()))
     }
 
     private fun leadToPenalty(input: String): Boolean {
