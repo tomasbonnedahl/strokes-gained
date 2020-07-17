@@ -1,10 +1,10 @@
-import strokesGained.StrokeFFS
+import strokesGained.Stroke
 
 // TODO: Interface to this?
 class Converter(
     private val groundMapper: GroundMapper
 ) {
-    fun fromEntryToStroke(distanceToPin: DistanceToPin): StrokeFFS {
+    fun fromEntryToStroke(distanceToPin: DistanceToPin): Stroke {
         val distanceAndGround = if (distanceToPin.text.contains(".")) { // TODO: Support ,?
             val splitOnDecimalSeparator = distanceToPin.text.split(".")
             val halfDistanceAndGround = partition(splitOnDecimalSeparator[1])
@@ -16,7 +16,7 @@ class Converter(
             partition(distanceToPin.text)
         }
 
-        return StrokeFFS(
+        return Stroke(
             ground = getGroundFromString(distanceAndGround.second),
             distanceToPin = DenominatedValue(distanceAndGround.first.toDouble(), DistanceUnit.METERS),  // TODO: Get as config
             leadToPenalty = leadToPenalty(distanceAndGround.second)

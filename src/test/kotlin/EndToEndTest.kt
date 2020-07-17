@@ -43,12 +43,12 @@ class EndToEndTest {
                 StrokesForHole(
                     1,
                     listOf(
-                        StrokeFFS(
+                        Stroke(
                             Ground.TEE,
                             DenominatedValue(128.0, DistanceUnit.METERS),
                             false
                         ),
-                        StrokeFFS(
+                        Stroke(
                             Ground.GREEN,
                             DenominatedValue(3.0, DistanceUnit.METERS),
                             false
@@ -97,22 +97,22 @@ class EndToEndTest {
                 StrokesForHole(
                     2,
                     listOf(
-                        StrokeFFS(
+                        Stroke(
                             Ground.TEE,
                             DenominatedValue(360.0, DistanceUnit.METERS),
                             false
                         ),
-                        StrokeFFS(
+                        Stroke(
                             Ground.FAIRWAY,
                             DenominatedValue(140.0, DistanceUnit.METERS),
                             false
                         ),
-                        StrokeFFS(
+                        Stroke(
                             Ground.GREEN,
                             DenominatedValue(8.0, DistanceUnit.METERS),
                             false
                         ),
-                        StrokeFFS(
+                        Stroke(
                             Ground.GREEN,
                             DenominatedValue(0.5, DistanceUnit.METERS),
                             false
@@ -336,26 +336,5 @@ class EndToEndTest {
         assertThat(strokesGained.tee()).isEqualTo(-0.154)
         assertThat(strokesGained.fairway()).isEqualTo(-0.544)
         assertThat(strokesGained.green()).isEqualTo(-0.171)
-    }
-
-    @Test
-    fun `test taking end of string`() {
-        val s = "0.4G"
-        val asfsa = s.partition { c -> c.isDigit() }
-
-        if (s.contains(".")) { // TODO: Support ,?
-            val x = s.split(".")
-            println("x = ${x}")
-
-            val y = x[1].partition { c -> c.isDigit() }
-            println("y = ${y}")
-
-            val z = x[0] + "." + y.first
-            println("z = ${z}")
-            val zz = z.toDouble()
-        }
-
-        println("asfsa = ${asfsa}")
-
     }
 }

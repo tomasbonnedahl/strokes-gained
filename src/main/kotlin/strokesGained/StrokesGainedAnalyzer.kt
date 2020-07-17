@@ -49,8 +49,8 @@ class StrokesGainedAnalyzer(
     }
 
     private fun calcSg(
-        stroke: StrokeFFS,
-        nextStroke: StrokeFFS
+        stroke: Stroke,
+        nextStroke: Stroke
     ): Double {
         val sgStroke = strokesGainedFromBenchmark(
             stroke.distanceToPin,
