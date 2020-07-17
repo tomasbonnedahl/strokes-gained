@@ -5,7 +5,7 @@ import kotlin.math.roundToInt
 class BenchmarkAndInterpolation(
     // TODO: Also accept an interpolation interface?
     private val strokesGainedBenchmarkRepository: StrokesGainedBenchmarkRepository
-) {
+): Benchmark {
     private val strokesGainedByGround = mutableMapOf<Ground, StrokesGainedForAllDistances>()
 
     init {
@@ -15,7 +15,15 @@ class BenchmarkAndInterpolation(
         }
     }
 
-    fun calc(ground: Ground): StrokesGainedForAllDistances {
+    override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
+        return strokesGainedByGround.getOrElse(
+            ground, {
+                throw IllegalArgumentException("Ground $ground not configured")  // TODO: Custom exception
+            }
+        ).get(denominatedValue.distance.toInt())
+    }
+
+    private fun calc(ground: Ground): StrokesGainedForAllDistances {
         val strokesGainedByDistance = strokesGainedBenchmarkRepository.getAll(ground)
 
         val keysSorted = strokesGainedByDistance.keys.sortedBy { it.distance }
@@ -47,13 +55,5 @@ class BenchmarkAndInterpolation(
         )
 
         return StrokesGainedForAllDistances(retVal)
-    }
-
-    fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
-        return strokesGainedByGround.getOrElse(
-            ground, {
-                throw IllegalArgumentException("Ground $ground not configured")  // TODO: Custom exception
-            }
-        ).get(denominatedValue.distance.toInt())
     }
 }

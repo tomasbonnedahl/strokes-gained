@@ -1,16 +1,17 @@
 package strokesGained
 
-import BenchmarkAndInterpolation
+import Benchmark
 import DenominatedValue
 import Ground
 import Round
 
 class StrokesGainedAnalyzer(
-    private val benchmarkAndInterpolation: BenchmarkAndInterpolation  // TODO: interface
+    private val benchmark: Benchmark
 ) {
     fun analyze(
         round: Round
     ): StrokesGained {
+        // TODO: When analyze(rounds) is implemented, call that with analyze(listOf(round))
         return StrokesGained(
             round.strokesPerHole.map { strokesForHole ->
                 calculateStrokesGained(strokesForHole)
@@ -26,13 +27,10 @@ class StrokesGainedAnalyzer(
     }
 
     private fun calculateStrokesGained(strokesPerHole: StrokesForHole): List<StrokesGainedData> {
-        strokesPerHole.distances.forEach { println("it = ${it}") }
-
         val sgs = mutableListOf<StrokesGainedData>()
 
         for (i in strokesPerHole.distances.indices.take(strokesPerHole.distances.size - 1)) {
             // Starting on the first, iterating up until the second to last
-            println("i = ${i}")
 
             val sg = calcSg(
                 strokesPerHole.distances[i],
@@ -71,6 +69,6 @@ class StrokesGainedAnalyzer(
         denominatedValue: DenominatedValue,
         ground: Ground
     ): Double {
-        return benchmarkAndInterpolation.get(denominatedValue, ground)
+        return benchmark.get(denominatedValue, ground)
     }
 }
