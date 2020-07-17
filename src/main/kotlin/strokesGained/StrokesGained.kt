@@ -28,20 +28,28 @@ class StrokesGained(
         minInclusive: DenominatedValue,
         maxExclusive: DenominatedValue
     ): Double {
-        return rounded(all.filter {
-            it.ground == Ground.FAIRWAY
-        }.filter {
-            it.distanceToPin.distance >= minInclusive.distance  // TODO: Compare both distance and unit
-        }.filter {
-            it.distanceToPin.distance < maxExclusive.distance  // TODO: Compare both distance and unit
-        }.sumByDouble(StrokesGainedData::strokesGained))
+        return strokesGained(Ground.FAIRWAY, minInclusive, maxExclusive)
     }
 
     fun green(
         minInclusive: DenominatedValue,
         maxExclusive: DenominatedValue
     ): Double {
-        TODO("Implement this")
+        return strokesGained(Ground.GREEN, minInclusive, maxExclusive)
+    }
+
+    private fun strokesGained(
+        ground: Ground,
+        minInclusive: DenominatedValue,
+        maxExclusive: DenominatedValue
+    ): Double {
+        return rounded(all.filter {
+            it.ground == ground
+        }.filter {
+            it.distanceToPin.distance >= minInclusive.distance  // TODO: Compare both distance and unit
+        }.filter {
+            it.distanceToPin.distance < maxExclusive.distance  // TODO: Compare both distance and unit
+        }.sumByDouble(StrokesGainedData::strokesGained))
     }
 
     private fun strokesGained(ground: Ground): Double {
@@ -54,5 +62,4 @@ class StrokesGained(
     private fun rounded(value: Double): Double {
         return value.toBigDecimal().setScale(3, RoundingMode.HALF_EVEN).toDouble()
     }
-
 }

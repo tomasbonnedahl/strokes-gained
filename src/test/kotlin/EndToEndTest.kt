@@ -149,41 +149,6 @@ class EndToEndTest {
     }
 
     @Test
-    fun `test simple`() {
-        val strokesGained = StrokesGained(
-            listOf(
-                StrokesGainedData(
-                    -0.57,
-                    DenominatedValue(150.0, DistanceUnit.METERS),
-                    Ground.FAIRWAY
-                )
-            )
-        )
-
-        assertThat(strokesGained.total()).isEqualTo(-0.57)
-    }
-
-    @Test
-    fun `test total`() {
-        val strokesGained = StrokesGained(
-            listOf(
-                StrokesGainedData(
-                    -0.1,
-                    DenominatedValue(150.0, DistanceUnit.METERS),
-                    Ground.TEE
-                ),
-                StrokesGainedData(
-                    -0.2,
-                    DenominatedValue(250.0, DistanceUnit.METERS),
-                    Ground.FAIRWAY
-                )
-            )
-        )
-
-        assertThat(strokesGained.total()).isEqualTo(-0.3, within(0.00001))
-    }
-
-    @Test
     fun `test end to end`() {
         val converter = Converter.of(
             CommonGroundMapper.create()
