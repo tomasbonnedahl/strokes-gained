@@ -4,7 +4,6 @@ import DenominatedValue
 import Ground
 import java.math.RoundingMode
 
-// TODO: Interface instead with several implementations? Depend on interface, etc.
 class StrokesGained(
     private val all: List<StrokesGainedData>
 ) {
