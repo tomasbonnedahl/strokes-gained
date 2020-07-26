@@ -43,11 +43,8 @@ class StrokesGainedAnalyzerTest {
         )
     }
 
-    @Test
-    fun `test analyzing one round with two holes played`() {
-        val strokesGainedAnalyzer = StrokesGainedAnalyzer(benchmark)
-
-        val round = Round(
+    private fun getRound(): Round {
+        return Round(
             CourseAndDate(
                 "Täby GK",
                 Date(2020, 2, 2)
@@ -87,9 +84,11 @@ class StrokesGainedAnalyzerTest {
                 )
             )
         )
+    }
 
-        val strokesGained = strokesGainedAnalyzer.analyze(round)
-
+    private fun assertStrokesGained(
+        strokesGained: StrokesGained
+    ) {
         assertThat(strokesGained.total()).isEqualTo(0.5, within(0.001))
         assertThat(strokesGained.tee()).isEqualTo(1.5, within(0.001))
         assertThat(strokesGained.fairway()).isEqualTo(-0.5, within(0.001))
@@ -110,15 +109,25 @@ class StrokesGainedAnalyzerTest {
             DenominatedValue(0.8, DistanceUnit.METERS),
             DenominatedValue(1.2, DistanceUnit.METERS)
         )).isEqualTo(0.0, within(0.001))
+
     }
 
     @Test
-    fun `test analyzing multiple rounds`() {
-
+    fun `test analyzing one round with two holes played`() {
+        val strokesGainedAnalyzer = StrokesGainedAnalyzer(benchmark)
+        val strokesGained = strokesGainedAnalyzer.analyze(getRound())
+        assertStrokesGained(strokesGained)
     }
 
     @Test
     fun `test analyze one round a list of one round is identical`() {
+        val strokesGainedAnalyzer = StrokesGainedAnalyzer(benchmark)
+        val strokesGained = strokesGainedAnalyzer.analyze(listOf(getRound()))
+        assertStrokesGained(strokesGained)
+    }
+
+    @Test
+    fun `test analyzing multiple rounds`() {
 
     }
 

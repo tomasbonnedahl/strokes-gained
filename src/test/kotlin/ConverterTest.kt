@@ -97,6 +97,10 @@ class ConverterTest {
             assertThat(stroke.distanceToPin.distance).isEqualTo(100.0)
             assertThat(stroke.leadToPenalty).isEqualTo(false)
         }
+    }
 
+    @Test
+    fun `test lower case input should work`() {
+        // TODO
     }
 }

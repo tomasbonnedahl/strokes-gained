@@ -302,4 +302,12 @@ class EndToEndTest {
         assertThat(strokesGained.fairway()).isEqualTo(-0.544)
         assertThat(strokesGained.green()).isEqualTo(-0.171)
     }
+
+    @Test
+    fun `test input as from the browser`() {
+        val input = listOf(
+            "431T,230Rec,204R,43F,3.5G"
+        )
+        // TODO: Finish
+    }
 }

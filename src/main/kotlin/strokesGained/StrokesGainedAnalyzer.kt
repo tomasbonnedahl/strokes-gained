@@ -22,11 +22,18 @@ class StrokesGainedAnalyzer(
     fun analyze(
         rounds: List<Round>
     ): StrokesGained {
-//        val asf = rounds.map(this::analyze).flatMap { it ->  }
-        TODO("Return one object for all rounds, additative")
+        return StrokesGained(
+            rounds.flatMap { round ->
+                round.strokesPerHole.flatMap { strokesForHole ->
+                    calculateStrokesGained(strokesForHole)
+                }
+            }
+        )
     }
 
-    private fun calculateStrokesGained(strokesPerHole: StrokesForHole): List<StrokesGainedData> {
+    private fun calculateStrokesGained(
+        strokesPerHole: StrokesForHole
+    ): List<StrokesGainedData> {
         val sgs = mutableListOf<StrokesGainedData>()
 
         for (i in strokesPerHole.distances.indices.take(strokesPerHole.distances.size - 1)) {
