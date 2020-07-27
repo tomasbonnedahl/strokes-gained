@@ -135,7 +135,7 @@ class EndToEndTest {
             )
         ).isEqualTo(0.083, within(0.00001))  // TODO: epsilon
 
-        // TODO: A no data test. should throw exception?
+        // TODO: A no data test. should throw exception? Or show as zero?
 //        assertThat(
 //            strokesGained.fairway(
 //                DenominatedValue(125.0. DistanceUnit.METERS).
