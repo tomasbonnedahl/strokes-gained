@@ -111,4 +111,14 @@ class StrokesGainedTest {
             )
         ).isEqualTo(0.0)
     }
+
+    @Test
+    fun `test in yards`() {
+        // TODO
+    }
+
+    @Test
+    fun `test in feet`() {
+        // TODO
+    }
 }

@@ -132,7 +132,29 @@ class StrokesGainedAnalyzerTest {
 
     @Test
     fun `test analyzing multiple rounds`() {
-        // TODO
+        val strokesGainedAnalyzer = StrokesGainedAnalyzer(benchmark)
+        val strokesGained = strokesGainedAnalyzer.analyze(listOf(getRound(), getRound()))
+
+        assertThat(strokesGained.total()).isEqualTo(1.0, within(0.001))
+        assertThat(strokesGained.tee()).isEqualTo(3.0, within(0.001))
+        assertThat(strokesGained.fairway()).isEqualTo(-1.0, within(0.001))
+        assertThat(strokesGained.fairway(
+            DenominatedValue(180.0, DistanceUnit.METERS),
+            DenominatedValue(210.0, DistanceUnit.METERS)))
+            .isEqualTo(0.4, within(0.001))
+        assertThat(strokesGained.fairway(
+            DenominatedValue(40.0, DistanceUnit.METERS),
+            DenominatedValue(60.0, DistanceUnit.METERS)))
+            .isEqualTo(-1.4, within(0.001))
+        assertThat(strokesGained.green()).isEqualTo(-1.0, within(0.001))
+        assertThat(strokesGained.green(
+            DenominatedValue(9.0, DistanceUnit.METERS),
+            DenominatedValue(11.0, DistanceUnit.METERS)
+        )).isEqualTo(-1.0, within(0.001))
+        assertThat(strokesGained.green(
+            DenominatedValue(0.8, DistanceUnit.METERS),
+            DenominatedValue(1.2, DistanceUnit.METERS)
+        )).isEqualTo(0.0, within(0.001))
     }
 
     @Test

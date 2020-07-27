@@ -45,9 +45,9 @@ class StrokesGained(
         return rounded(all.filter {
             it.ground == ground
         }.filter {
-            it.distanceToPin.distance >= minInclusive.distance  // TODO: Compare both distance and unit
+            it.distanceToPin.distance >= minInclusive.distance  // TODO: Compare both distance and unit (convert)
         }.filter {
-            it.distanceToPin.distance < maxExclusive.distance  // TODO: Compare both distance and unit
+            it.distanceToPin.distance < maxExclusive.distance  // TODO: Compare both distance and unit (convert)
         }.sumByDouble(StrokesGainedData::strokesGained))
     }
 
