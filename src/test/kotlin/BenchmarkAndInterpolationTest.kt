@@ -85,10 +85,6 @@ class BenchmarkAndInterpolationTest {
     @Test
     fun `test getting non-supported ground, expect exception`() {
         class StrokesGainedBenchmarkRepoTestImpl: StrokesGainedBenchmarkRepository {
-            override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
             override fun getAll(ground: Ground): Map<DenominatedValue, Double> {
                 return mapOf(
                     DenominatedValue(100.0, DistanceUnit.METERS) to 1.23

@@ -8,10 +8,6 @@ class EndToEndTest {
     class StrokesGainedRepoTestImpl(
         val strokesByDistanceByGround: Map<Ground, Map<DenominatedValue, Double>>
     ): StrokesGainedBenchmarkRepository {
-        override fun get(denominatedValue: DenominatedValue, ground: Ground): Double {
-            return strokesByDistanceByGround[ground]!![denominatedValue]!!
-        }
-
         override fun getAll(ground: Ground): Map<DenominatedValue, Double> {
             return strokesByDistanceByGround[ground]!!
         }
