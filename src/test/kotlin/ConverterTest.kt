@@ -14,7 +14,6 @@ class ConverterTest {
                 "R" to Ground.ROUGH,
                 "G" to Ground.GREEN,
                 "Rec" to Ground.RECOVERY
-                // TODO: Add TI (tap-in)
             )
 
             override fun ground(text: String): Ground {

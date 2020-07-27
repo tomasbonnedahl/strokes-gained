@@ -19,6 +19,7 @@ class CommonGroundMapper(
             "G" to Ground.GREEN,
             "Rec" to Ground.RECOVERY,
             "S" to Ground.SAND
+            // TODO: Add TI (tap-in)
         )
 
         fun create(): CommonGroundMapper {
