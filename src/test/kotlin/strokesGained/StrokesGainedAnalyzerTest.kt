@@ -113,10 +113,15 @@ class StrokesGainedAnalyzerTest {
     }
 
     @Test
-    fun `test analyzing one round with two holes played`() {
+    fun `test analyzing one round with one hole played`() {
         val strokesGainedAnalyzer = StrokesGainedAnalyzer(benchmark)
         val strokesGained = strokesGainedAnalyzer.analyze(getRound())
         assertStrokesGained(strokesGained)
+    }
+
+    @Test
+    fun `test analyzing one round with two holes played`() {
+
     }
 
     @Test
@@ -138,7 +143,31 @@ class StrokesGainedAnalyzerTest {
 
     @Test
     fun `test hio`() {
+        val strokesGained = StrokesGainedAnalyzer(benchmark).analyze(
+            Round(
+                CourseAndDate(
+                    "Täby GK",
+                    Date(2020, 2, 2)
+                ),
+                listOf(
+                    StrokesForHole(
+                        1,
+                        listOf(
+                            Stroke(
+                                Ground.TEE,
+                                DenominatedValue(400.0, DistanceUnit.METERS),
+                                false
+                            )
+                        ),
+                        1,
+                        0
+                    )
+                )
+            )
+        )
 
+        assertThat(strokesGained.total()).isEqualTo(4.0)
+        assertThat(strokesGained.tee()).isEqualTo(4.0)
     }
 
     @Test

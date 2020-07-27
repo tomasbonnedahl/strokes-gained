@@ -36,22 +36,25 @@ class StrokesGainedAnalyzer(
     ): List<StrokesGainedData> {
         val sgs = mutableListOf<StrokesGainedData>()
 
-        for (i in strokesPerHole.distances.indices.take(strokesPerHole.distances.size - 1)) {
+        val strokes = strokesPerHole.distances + IN_THE_HOLE
+
+        for (i in strokes.indices.take(strokes.size - 1)) {
             // Starting on the first, iterating up until the second to last
 
             val sg = calcSg(
-                strokesPerHole.distances[i],
-                strokesPerHole.distances[i + 1]
+                strokes[i],
+                strokes[i + 1]
             )
 
             sgs.add(
                 StrokesGainedData(
                     strokesGained = sg,
-                    distanceToPin = strokesPerHole.distances[i].distanceToPin,
-                    ground = strokesPerHole.distances[i].ground
+                    distanceToPin = strokes[i].distanceToPin,
+                    ground = strokes[i].ground
                 )
             )
         }
+
         return sgs
     }
 
@@ -64,7 +67,9 @@ class StrokesGainedAnalyzer(
             stroke.ground
         )
 
-        val sgNextStroke = strokesGainedFromBenchmark(
+        val sgNextStroke = if (nextStroke.distanceToPin.distance == 0.0)
+            0.0
+        else strokesGainedFromBenchmark(
             nextStroke.distanceToPin,
             nextStroke.ground
         )
@@ -77,5 +82,13 @@ class StrokesGainedAnalyzer(
         ground: Ground
     ): Double {
         return benchmark.get(denominatedValue, ground)
+    }
+
+    companion object {
+        private val IN_THE_HOLE = Stroke(
+            Ground.GREEN,
+            DenominatedValue(0.0, DistanceUnit.METERS),
+            false
+        )
     }
 }

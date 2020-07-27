@@ -64,8 +64,9 @@ class EndToEndTest {
             BenchmarkAndInterpolation(benchmark)
         ).analyze(round)
 
-        assertThat(strokesGained.total()).isEqualTo(0.3, within(0.0001))
         assertThat(strokesGained.tee()).isEqualTo(0.3, within(0.0001))
+        assertThat(strokesGained.green()).isEqualTo(0.7, within(0.0001))
+        assertThat(strokesGained.total()).isEqualTo(1.0, within(0.0001))
     }
 
     @Test
@@ -172,7 +173,7 @@ class EndToEndTest {
                 StrokesForHole(
                     1,  // TODO: Get from enumeration
                     holeEntries,
-                    5,  // TODO: Calculate as part of the input? Remove from here otherwise?
+                    5,  // TODO: Calculate as part of the input? Remove from here otherwise? Remember penalty shots
                     2
                 )
             )
@@ -297,10 +298,10 @@ class EndToEndTest {
         ).analyze(round)
 
         // Lock-in values, verified outside the application
-        assertThat(strokesGained.total()).isEqualTo(-0.869)
+        assertThat(strokesGained.total()).isEqualTo(-0.769)
         assertThat(strokesGained.tee()).isEqualTo(-0.154)
         assertThat(strokesGained.fairway()).isEqualTo(-0.544)
-        assertThat(strokesGained.green()).isEqualTo(-0.171)
+        assertThat(strokesGained.green()).isEqualTo(-0.071)
     }
 
     @Test
