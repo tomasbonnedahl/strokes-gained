@@ -109,7 +109,6 @@ class StrokesGainedAnalyzerTest {
             DenominatedValue(0.8, DistanceUnit.METERS),
             DenominatedValue(1.2, DistanceUnit.METERS)
         )).isEqualTo(0.0, within(0.001))
-
     }
 
     @Test
@@ -121,7 +120,7 @@ class StrokesGainedAnalyzerTest {
 
     @Test
     fun `test analyzing one round with two holes played`() {
-
+        // TODO
     }
 
     @Test
@@ -133,12 +132,75 @@ class StrokesGainedAnalyzerTest {
 
     @Test
     fun `test analyzing multiple rounds`() {
-
+        // TODO
     }
 
     @Test
     fun `test lead to penalty works`() {
+        val round = Round(
+            CourseAndDate(
+                "Täby GK",
+                Date(2020, 2, 2)
+            ),
+            listOf(
+                StrokesForHole(
+                    1,
+                    listOf(
+                        Stroke(
+                            Ground.TEE,
+                            DenominatedValue(450.0, DistanceUnit.METERS),
+                            true
+                        ),
+                        Stroke(
+                            Ground.FAIRWAY,
+                            DenominatedValue(200.0, DistanceUnit.METERS),
+                            false
+                        ),
+                        Stroke(
+                            Ground.FAIRWAY,
+                            DenominatedValue(50.0, DistanceUnit.METERS),
+                            false
+                        ),
+                        Stroke(
+                            Ground.GREEN,
+                            DenominatedValue(10.0, DistanceUnit.METERS),
+                            false
+                        ),
+                        Stroke(
+                            Ground.GREEN,
+                            DenominatedValue(1.0, DistanceUnit.METERS),
+                            false
+                        )
+                    ),
+                    6,
+                    2
+                )
+            )
+        )
 
+        val strokesGainedAnalyzer = StrokesGainedAnalyzer(benchmark)
+        val strokesGained = strokesGainedAnalyzer.analyze(round)
+
+        assertThat(strokesGained.total()).isEqualTo(-0.5, within(0.001))
+        assertThat(strokesGained.tee()).isEqualTo(0.5, within(0.001))
+        assertThat(strokesGained.fairway()).isEqualTo(-0.5, within(0.001))
+        assertThat(strokesGained.fairway(
+            DenominatedValue(180.0, DistanceUnit.METERS),
+            DenominatedValue(210.0, DistanceUnit.METERS)))
+            .isEqualTo(0.2, within(0.001))
+        assertThat(strokesGained.fairway(
+            DenominatedValue(40.0, DistanceUnit.METERS),
+            DenominatedValue(60.0, DistanceUnit.METERS)))
+            .isEqualTo(-0.7, within(0.001))
+        assertThat(strokesGained.green()).isEqualTo(-0.5, within(0.001))
+        assertThat(strokesGained.green(
+            DenominatedValue(9.0, DistanceUnit.METERS),
+            DenominatedValue(11.0, DistanceUnit.METERS)
+        )).isEqualTo(-0.5, within(0.001))
+        assertThat(strokesGained.green(
+            DenominatedValue(0.8, DistanceUnit.METERS),
+            DenominatedValue(1.2, DistanceUnit.METERS)
+        )).isEqualTo(0.0, within(0.001))
     }
 
     @Test
