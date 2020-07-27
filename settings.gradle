@@ -1,6 +1,6 @@
 rootProject.name = 'sg'
 //rootProject.name = 'domain'
-include 'domain'
+include 'domain', 'app'
 
 //rootProject.name = "example"
 //include("backend", "test-utils")
